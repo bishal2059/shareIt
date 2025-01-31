@@ -1,0 +1,81 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Share It</title>
+    <style></style>
+  </head>
+  <body>
+    <header class="header">
+      <div class="logo">ShareIt</div>
+      <nav class="nav-links">
+        <a href="#">Home</a>
+        <a href="#">About</a>
+        <a href="#">Contact</a>
+        <a href="#">Login/Signup</a>
+      </nav>
+    </header>
+
+    <div class="main-container">
+      <div class="side-design"></div>
+
+      <div class="content-area">
+        <div class="tabs">
+          <button class="tab active" onclick="switchTab('text')">
+            Share Text
+          </button>
+          <button class="tab" onclick="switchTab('file')">Share File</button>
+        </div>
+
+        <!-- Text Share Tab -->
+        <div id="text-tab" class="tab-content active">
+          <form method="post" action="{% url 'share_text' %}">
+            {% csrf_token %}
+            <textarea
+              class="text-area"
+              placeholder="Enter text to share..."
+            ></textarea>
+            <div class="button-group">
+              <button type="submit" class="btn btn-primary">Share</button>
+              <button type="button" class="btn btn-secondary">
+                Generate Link
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <!-- File Share Tab -->
+        <div id="file-tab" class="tab-content">
+          <form
+            method="post"
+            action="{% url 'share_file' %}"
+            enctype="multipart/form-data"
+          >
+            {% csrf_token %}
+            <div class="file-input">
+              <input type="file" id="file-upload" hidden />
+              <label for="file-upload" class="custom-file-input"
+                >Choose File</label
+              >
+              <span id="file-name">No file chosen</span>
+            </div>
+            <div class="button-group">
+              <button type="submit" class="btn btn-primary">Upload</button>
+              <button type="button" class="btn btn-secondary">
+                Generate Link
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <footer class="footer">
+      <p>&copy; 2023 ShareIt. All rights reserved.</p>
+    </footer>
+
+    <script></script>
+  </body>
+</html>
