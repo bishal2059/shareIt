@@ -4,11 +4,19 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{% title %}</title>
-    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
-    <script src="{% static 'js/main.js' %}"></script>
+    <title>{%block title%} Share It {%endblock%}</title>
+    {% block css %}{% endblock %} {% block js %}{% endblock %}
   </head>
   <body>
-    {{ui}}
+    <header class="header">
+      <div class="logo">ShareIt</div>
+      <nav class="nav-links">
+        <a href="#">Home</a>
+        <a href="#">About</a>
+        <a href="#">Contact</a>
+        <a href="#">Login/Signup</a>
+      </nav>
+    </header>
+    {% block ui %} {% endblock %}
   </body>
 </html>

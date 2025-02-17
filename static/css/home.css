@@ -1,0 +1,40 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: linear-gradient(135deg, #6a11cb, #2575fc);
+  color: white;
+  text-align: center;
+}
+.container {
+  max-width: 400px;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 15px;
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+}
+h1 {
+  font-size: 2.5em;
+  margin-bottom: 20px;
+}
+p {
+  font-size: 1.2em;
+  margin-bottom: 30px;
+}
+.share-button {
+  display: inline-block;
+  background: #ff7b00;
+  color: white;
+  padding: 15px 40px;
+  font-size: 1.5em;
+  border-radius: 50px;
+  text-decoration: none;
+  transition: 0.3s;
+}
+.share-button:hover {
+  background: #ff4d00;
+}

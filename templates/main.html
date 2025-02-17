@@ -1,0 +1,14 @@
+{% extends "layout.html"%}
+{% load static %} 
+{% block title%} ShareIt 
+{% endblock %} 
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/home.css' %}" />
+{% endblock %}
+{% block ui%}
+<div class="container">
+  <h1>Welcome to ShareIt</h1>
+  <p>Fast and secure file sharing made easy.</p>
+  <a href="/share" class="share-button">Share Now</a>
+</div>
+{% endblock %}
