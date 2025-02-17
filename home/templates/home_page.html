@@ -1,9 +1,12 @@
-{% extends "layout.html" %} {% load static %} {% block css%}
-<link rel="stylesheet" href="{% static 'css/home.css' %}" />
-{% endblock%} {% block js%}
-<script src="js/main.js" />
-{% endblock %} {% block ui %}
-
+{% extends "layout.html" %}
+{% load static %} 
+{% block css%}
+<link rel="stylesheet" href="{% static 'css/style.css' %}" />
+{% endblock%}
+{% block js%}
+<script src="{% static 'js/main.js' %}" defer></script>
+{% endblock %} 
+{% block ui %}
 <div class="main-container">
   <div class="side-design"></div>
 
