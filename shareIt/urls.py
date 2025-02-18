@@ -21,5 +21,7 @@ from . import views
 urlpatterns = [
     path('',views.main,name='main'),
     path('share/', include('home.urls')),
+    path('generate-link/', views.generate_share_link, name='generate-link'),
+    path('share/<uuid:link_id>/', views.share_text, name='share-text'),
     path('admin/', admin.site.urls),
 ]
