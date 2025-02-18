@@ -7,57 +7,66 @@
 <script src="{% static 'js/main.js' %}" defer></script>
 {% endblock %} 
 {% block ui %}
-<header class="header">
+<nav>
   <div class="logo">ShareIt</div>
-  <nav class="nav-links">
+  <div class="nav-links">
     <a href="/">Home</a>
-    <a href="#">About</a>
-  </nav>
-</header>
-<div class="main-container">
-  <div class="side-design"></div>
+    <a href="#features">Features</a>
+  </div>
+</nav>
 
-  <div class="content-area">
-    <div class="tabs">
-      <button class="tab active" onclick="switchTab('text')">Share Text</button>
-      <button class="tab" onclick="switchTab('file')">Share File</button>
-    </div>
+<div class="hero">
+  <h1>Share Instantly, Share Securely</h1>
+  <p>Transfer text and files up to 100MB instantly</p>
+</div>
 
-    <!-- Text Share Tab -->
-    <div id="text-tab" class="tab-content active">
-      <form method="post" action="#">
-        {% csrf_token %}
-        <textarea
-          class="text-area"
-          placeholder="Enter text to share..."
-        ></textarea>
-        <div class="button-group">
-          <button type="submit" class="btn btn-primary">Share</button>
-          <button type="button" class="btn btn-secondary">Generate Link</button>
-        </div>
-      </form>
-    </div>
+<div class="sharing-options">
+  <div class="tabs">
+      <button class="tab-btn active" onclick="switchTab('text')">Share Text</button>
+      <button class="tab-btn" onclick="switchTab('file')">Share File</button>
+  </div>
 
-    <!-- File Share Tab -->
-    <div id="file-tab" class="tab-content">
-      <form method="post" action="#" enctype="multipart/form-data">
-        {% csrf_token %}
-        <div class="file-input">
-          <input type="file" id="file-upload" hidden />
-          <label for="file-upload" class="custom-file-input">Choose File</label>
-          <span id="file-name">No file chosen</span>
-        </div>
-        <div class="button-group">
-          <button type="submit" class="btn btn-primary">Upload</button>
-          <button type="button" class="btn btn-secondary">Generate Link</button>
-        </div>
-      </form>
-    </div>
+  <form id="textForm" class="share-form active">
+    {% csrf_token %}
+      <textarea id="shareText" placeholder="Paste your text here..."></textarea>
+      <button type="submit">Generate Share Link</button>
+  </form>
+
+  <form id="fileForm" class="share-form">
+    {% csrf_token %}
+      <div class="file-upload" onclick="document.getElementById('fileInput').click()">
+          <i class="fas fa-cloud-upload-alt fa-3x"></i>
+          <p>Click to upload files</p>
+          <input type="file" id="fileInput" hidden>
+      </div>
+      <div id="fileName"></div>
+      <button type="submit">Upload & Generate Link</button>
+  </form>
+</div>
+
+<div class="result-container">
+  <div id="generatedLink" class="link-results"></div>
+</div>
+
+<div class="features" id="features">
+  <div class="feature-card">
+      <i class="fas fa-shield-alt"></i>
+      <h3> Encryption</h3>
+      <p>Your files are protected with AES-256 encryption</p>
+  </div>
+  <div class="feature-card">
+      <i class="fas fa-infinity"></i>
+      <h3>Unlimited Transfers</h3>
+      <p>No restrictions on number of transfers</p>
+  </div>
+  <div class="feature-card">
+      <i class="fas fa-bolt"></i>
+      <h3>Lightning Fast</h3>
+      <p>High-speed transfers with our global CDN</p>
   </div>
 </div>
 
-<footer class="footer">
-  <p>&copy; 2023 ShareIt. All rights reserved.</p>
+<footer id="contact">
+  <p>© 2023 ShareIt. All rights reserved.</p>
 </footer>
-
 {% endblock %}
