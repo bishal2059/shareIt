@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shared Text - ShareIt</title>
+    <link rel="icon" href="/static/favicon.png" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+        }
+
+        body {
+            background: #0d1117;
+            color: #c9d1d9;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .container {
+            background: #161b22;
+            border: 1px solid #30363d;
+            border-radius: 6px;
+            width: 100%;
+            max-width: 800px;
+            overflow: hidden;
+        }
+
+        .header {
+            background: #21262d;
+            padding: 1rem;
+            border-bottom: 1px solid #30363d;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header h1 {
+            font-size: 1.2rem;
+            font-weight: 500;
+        }
+
+        .copy-btn {
+            background: #238636;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.2s;
+        }
+
+        .copy-btn:hover {
+            background: #2ea043;
+        }
+
+        .copy-btn.copied {
+            background: #238636;
+            pointer-events: none;
+        }
+
+        .content-box {
+            padding: 1rem;
+            position: relative;
+        }
+
+        pre {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            background: #0d1117;
+            padding: 1rem;
+            border-radius: 6px;
+            border: 1px solid #30363d;
+            font-family: ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            max-height: 60vh;
+            overflow-y: auto;
+        }
+
+        .meta-info {
+            color: #8b949e;
+            font-size: 0.85rem;
+            margin-top: 1rem;
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+            }
+            
+            .header h1 {
+                font-size: 1rem;
+            }
+            
+            .copy-btn {
+                padding: 0.4rem 0.8rem;
+                font-size: 0.9rem;
+            }
+        }
+        .home-link {
+            background: #238636;
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border-radius: 6px;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.2s;
+        }
+
+        .home-link:hover {
+            background: #2ea043;
+            transform: translateY(-1px);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Shared Text Content</h1>
+            <button class="copy-btn" onclick="copyText()">
+                <i class="fas fa-copy"></i>
+                <span>Copy</span>
+            </button>
+            <a href="/share" class="home-link">
+                <i class="fas fa-home"></i>
+                Return Home
+            </a>
+        </div>
+        <div class="content-box">
+            <pre id="text-content">{{ content }}</pre>
+            <div class="meta-info">
+                Created at: {{ created_at|date:"M j, Y H:i" }} UTC
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function copyText() {
+            const text = document.getElementById('text-content').textContent;
+            const btn = document.querySelector('.copy-btn');
+            
+            navigator.clipboard.writeText(text).then(() => {
+                btn.classList.add('copied');
+                btn.innerHTML = `<i class="fas fa-check"></i> Copied!`;
+                
+                setTimeout(() => {
+                    btn.classList.remove('copied');
+                    btn.innerHTML = `<i class="fas fa-copy"></i> Copy`;
+                }, 2000);
+            });
+        }
+    </script>
+</body>
+</html>
