@@ -2,71 +2,170 @@
 {% load static %} 
 {% block css%}
 <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 {% endblock%}
 {% block js%}
 <script src="{% static 'js/main.js' %}" defer></script>
 {% endblock %} 
 {% block ui %}
+<div class="background-effects">
+    <div class="gradient-orb orb-1"></div>
+    <div class="gradient-orb orb-2"></div>
+    <div class="gradient-orb orb-3"></div>
+</div>
+
 <nav>
-  <div class="logo">ShareIt</div>
-  <div class="nav-links">
-    <a href="/">Home</a>
-    <a href="#features">Features</a>
-  </div>
+    <a href="/" class="logo">
+        <i class="fas fa-share-nodes"></i>
+        <span>ShareIt</span>
+    </a>
+    <div class="nav-links">
+        <a href="#features">Features</a>
+        <a href="#" class="nav-btn">Get Started</a>
+    </div>
 </nav>
 
-<div class="hero">
-  <h1>Share Instantly, Share Securely</h1>
-  <p>Transfer text and files up to 100MB instantly</p>
-</div>
+<main class="hero">
+    <div class="hero-content">
+        <div class="hero-badge">
+            <i class="fas fa-bolt"></i>
+            Fast & Secure Sharing
+        </div>
+        <h1>Share Files & Text <span class="gradient-text">Instantly</span></h1>
+        <p>Transfer text and files up to 10MB securely. Generate shareable links that expire in 24 hours.</p>
+    </div>
 
-<div class="sharing-options">
-  <div class="tabs">
-      <button class="tab-btn active" onclick="switchTab('text')">Share Text</button>
-      <button class="tab-btn" onclick="switchTab('file')">Share File</button>
-  </div>
+    <div class="share-card">
+        <div class="tabs">
+            <button class="tab-btn active" onclick="switchTab('text')">
+                <i class="fas fa-file-lines"></i>
+                Share Text
+            </button>
+            <button class="tab-btn" onclick="switchTab('file')">
+                <i class="fas fa-cloud-arrow-up"></i>
+                Share File
+            </button>
+        </div>
 
-  <form id="textForm" class="share-form active">
-    {% csrf_token %}
-      <textarea id="shareText" placeholder="Paste your text here..."></textarea>
-      <button type="submit">Generate Share Link</button>
-  </form>
+        <form id="textForm" class="share-form active">
+            {% csrf_token %}
+            <div class="form-group">
+                <textarea id="shareText" placeholder="Paste your text, code, or notes here..." rows="6"></textarea>
+                <div class="char-count"><span id="charCount">0</span> characters</div>
+            </div>
+            <button type="submit" class="submit-btn">
+                <i class="fas fa-link"></i>
+                Generate Link
+            </button>
+        </form>
 
-  <form id="fileForm" class="share-form">
-    {% csrf_token %}
-      <div class="file-upload" onclick="document.getElementById('fileInput').click()">
-          <i class="fas fa-cloud-upload-alt fa-3x"></i>
-          <p>Click to upload files</p>
-          <input type="file" id="fileInput" hidden>
-      </div>
-      <div id="fileName"></div>
-      <button type="submit">Upload & Generate Link</button>
-  </form>
-</div>
+        <form id="fileForm" class="share-form">
+            {% csrf_token %}
+            <div class="file-upload-area" id="dropZone">
+                <input type="file" id="fileInput" hidden>
+                <div class="upload-icon">
+                    <i class="fas fa-cloud-arrow-up"></i>
+                </div>
+                <p class="upload-text">Drag & drop your file here or <span>browse</span></p>
+                <p class="upload-limit">Maximum file size: 10MB</p>
+            </div>
+            <div id="filePreview" class="file-preview hidden">
+                <div class="file-info">
+                    <i class="fas fa-file"></i>
+                    <div class="file-details">
+                        <span class="file-name"></span>
+                        <span class="file-size"></span>
+                    </div>
+                </div>
+                <button type="button" class="remove-file" onclick="removeFile()">
+                    <i class="fas fa-xmark"></i>
+                </button>
+            </div>
+            <div id="uploadProgress" class="upload-progress hidden">
+                <div class="progress-bar">
+                    <div class="progress-fill"></div>
+                </div>
+                <span class="progress-text">Uploading... 0%</span>
+            </div>
+            <button type="submit" class="submit-btn" id="uploadBtn" disabled>
+                <i class="fas fa-link"></i>
+                Upload & Generate Link
+            </button>
+        </form>
+    </div>
 
-<div class="result-container">
-  <div id="generatedLink" class="link-results"></div>
-</div>
+    <div id="resultContainer" class="result-container hidden">
+        <div class="result-card">
+            <div class="result-header">
+                <div class="success-icon">
+                    <i class="fas fa-check"></i>
+                </div>
+                <h3>Link Generated Successfully!</h3>
+            </div>
+            <div class="link-box">
+                <input type="text" id="generatedLink" readonly>
+                <button type="button" class="copy-btn" onclick="copyGeneratedLink()">
+                    <i class="fas fa-copy"></i>
+                    Copy
+                </button>
+            </div>
+            <p class="expiry-note">
+                <i class="fas fa-clock"></i>
+                This link will expire in 24 hours
+            </p>
+            <button type="button" class="new-share-btn" onclick="resetForm()">
+                <i class="fas fa-plus"></i>
+                Share Something Else
+            </button>
+        </div>
+    </div>
+</main>
 
-<div class="features" id="features">
-  <div class="feature-card">
-      <i class="fas fa-shield-alt"></i>
-      <h3> Encryption</h3>
-      <p>Your files are protected with AES-256 encryption</p>
-  </div>
-  <div class="feature-card">
-      <i class="fas fa-infinity"></i>
-      <h3>Unlimited Transfers</h3>
-      <p>No restrictions on number of transfers</p>
-  </div>
-  <div class="feature-card">
-      <i class="fas fa-bolt"></i>
-      <h3>Lightning Fast</h3>
-      <p>High-speed transfers with our global CDN</p>
-  </div>
-</div>
+<section class="features" id="features">
+    <div class="section-header">
+        <h2>Why Choose <span class="gradient-text">ShareIt</span>?</h2>
+        <p>Simple, fast, and secure file sharing for everyone</p>
+    </div>
+    <div class="features-grid">
+        <div class="feature-card">
+            <div class="feature-icon">
+                <i class="fas fa-shield-halved"></i>
+            </div>
+            <h3>Secure Sharing</h3>
+            <p>Your files are protected with secure transfer protocols and auto-expire after 24 hours</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">
+                <i class="fas fa-rocket"></i>
+            </div>
+            <h3>Lightning Fast</h3>
+            <p>Optimized for speed with instant link generation and quick downloads</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">
+                <i class="fas fa-infinity"></i>
+            </div>
+            <h3>Unlimited Shares</h3>
+            <p>No restrictions on the number of files or text snippets you can share</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">
+                <i class="fas fa-mobile-screen"></i>
+            </div>
+            <h3>Works Everywhere</h3>
+            <p>Share from any device - desktop, tablet, or mobile. No app required</p>
+        </div>
+    </div>
+</section>
 
-<footer id="contact">
-  <p>© 2023 ShareIt. All rights reserved.</p>
+<footer>
+    <div class="footer-content">
+        <div class="footer-brand">
+            <i class="fas fa-share-nodes"></i>
+            <span>ShareIt</span>
+        </div>
+        <p>© 2024 ShareIt. Simple, secure file sharing.</p>
+    </div>
 </footer>
 {% endblock %}
